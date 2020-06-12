@@ -1,0 +1,34 @@
+{
+  "name": "async-bugs",
+  "version": "1.0.1",
+  "description": "Get fuller stack traces in nodejs for async stacks",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markwylde/async-bugs.git"
+  },
+  "keywords": [
+    "stacktraces",
+    "error",
+    "promises",
+    "async",
+    "await"
+  ],
+  "files": [
+    "*.js",
+    "README.md"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/markwylde/async-bugs/issues"
+  },
+  "homepage": "https://github.com/markwylde/async-bugs#readme",
+  "author": "Mark Wylde <me@markwylde.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "stack-chain": "^2.0.0"
+  }
+}
