@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const path = require('path');
 const chain = require('stack-chain');
-const asyncHook = require('async_hooks');
+const asyncHooks = require('async_hooks');
 
 const appDir = require.main
   ? path.dirname(require.main.filename) + '/'
@@ -10,9 +10,17 @@ const appDir = require.main
 const executionScopeInits = new Set();
 const traces = new Map();
 
+const hooks = asyncHooks.createHook({
+  init: asyncInit
+});
+hooks.enable();
+
 process.fullStackTrace = []
 process.on('unhandledRejection', function (error) {
-  const uniqueTraces = [...new Set(process.fullStackTrace)]
+  const traces = process.fullStackTrace
+    .sort()
+    .reverse()
+    .map(line => '    ' + line.slice(line.indexOf(']') + 1))
     .map(line => {
       if (!line.includes('node_modules')) {
         if (appDir) {
@@ -27,16 +35,12 @@ process.on('unhandledRejection', function (error) {
         return chalk.grey(line);
       }
     })
-    .join('\n');
 
+  const uniqueTraces = Array.from([...new Set(traces)])
+    .join('\n');
   console.log(error);
   console.log(uniqueTraces);
 })
-
-const hooks = asyncHook.createHook({
-  init: asyncInit
-});
-hooks.enable();
 
 function asyncInit(asyncId, type, triggerAsyncId, resource) {
   const trace = chain.callSite({
@@ -59,8 +63,8 @@ function asyncInit(asyncId, type, triggerAsyncId, resource) {
         return false;
       }
 
-      process.fullStackTrace.unshift(
-        `    at ${a.getFunctionName()} (${aFile}:${aLine}:${aColumn}`
+      process.fullStackTrace.push(
+          `[${100000000 + triggerAsyncId}] at ${a.getFunctionName()} (${aFile}:${aLine}:${aColumn}`
       )
     }
   }
