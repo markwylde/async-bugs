@@ -29,6 +29,8 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.0",
-    "stack-chain": "^2.0.0"
+    "stack-chain": "^2.0.0",
+    "trace": "^3.1.1",
+    "trace-cleaner": "^1.2.0"
   }
 }

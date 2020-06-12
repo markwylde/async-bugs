@@ -1,2 +1,2 @@
-require('./trace');
-require('./clean');
+require('trace');
+require('trace-cleaner');

@@ -15,7 +15,7 @@ const hooks = asyncHooks.createHook({
 });
 hooks.enable();
 
-process.fullStackTrace = []
+process.fullStackTrace = [];
 process.on('unhandledRejection', function (error) {
   const traces = process.fullStackTrace
     .sort()
@@ -30,31 +30,31 @@ process.on('unhandledRejection', function (error) {
 
           line = line.replace(appDir, chalk.grey(appDir));
         }
-        return line
+        return line;
       } else {
         return chalk.grey(line);
       }
-    })
+    });
 
   const uniqueTraces = Array.from([...new Set(traces)])
     .join('\n');
   console.log(error);
   console.log(uniqueTraces);
-})
+});
 
-function asyncInit(asyncId, type, triggerAsyncId, resource) {
+function asyncInit (asyncId, type, triggerAsyncId, resource) {
   const trace = chain.callSite({
     extend: false,
     filter: true,
     slice: 2
-  })
+  });
 
   if (executionScopeInits.has(triggerAsyncId)) {
     const parentTrace = traces.get(triggerAsyncId);
 
     let i = parentTrace.length;
-    while(i-- && trace.length > 1) {
-      const a = parentTrace[i]
+    while (i-- && trace.length > 1) {
+      const a = parentTrace[i];
       const aFile = a.getFileName();
       const aLine = a.getLineNumber();
       const aColumn = a.getColumnNumber();
@@ -65,7 +65,7 @@ function asyncInit(asyncId, type, triggerAsyncId, resource) {
 
       process.fullStackTrace.push(
           `[${100000000 + triggerAsyncId}] at ${a.getFunctionName()} (${aFile}:${aLine}:${aColumn}`
-      )
+      );
     }
   }
 
@@ -73,3 +73,5 @@ function asyncInit(asyncId, type, triggerAsyncId, resource) {
 
   executionScopeInits.add(asyncId);
 }
+
+require('trace-cleaner');
