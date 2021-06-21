@@ -1,3 +1,6 @@
+| :exclamation:  [hazlines](https://github.com/markwylde/hazlines) has replaced this and handles more scenarios  |
+|-------------------------------------------------------------------------------------|
+
 # async-bugs
 Create fuller stacktraces, remove all internal lines and gray out modules.
 
